@@ -1,0 +1,14 @@
+note over browser:
+user submits the form for adding a new note
+end note
+
+note over browser:
+browser renders the new note
+end note
+
+note over browser:
+browser sends the new note to the server to get it persisted
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: {"message":"note created"}
