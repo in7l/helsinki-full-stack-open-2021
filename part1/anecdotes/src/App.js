@@ -11,6 +11,11 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [points, setPoints] = useState(
+    // Create an array with as many elements as there are anecdotes,
+    // and set all values to 0.
+    new Array(anecdotes.length).fill(0)
+  );
 
   /**
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random#getting_a_random_integer_between_two_values
@@ -33,10 +38,18 @@ const App = () => {
     }
   };
 
+  const incrementAnecdoteScore = (index) => {
+    const pointsCopy = [...points];
+    pointsCopy[index]++;
+
+    setPoints(pointsCopy);
+  };
+
   return (
     <div>
-      {anecdotes[selected]}
-      <br />
+      <p>{anecdotes[selected]}</p>
+      <p>has {points[selected]} votes</p>
+      <button onClick={() => incrementAnecdoteScore(selected)}>vote</button>
       <button onClick={switchAnecdote}>next anecdote</button>
     </div>
   );
