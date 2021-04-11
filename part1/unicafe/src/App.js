@@ -13,7 +13,7 @@ const FeedbackInput = ({ incrementGood, incrementNeutral, incrementBad }) => (
   </div>
 );
 
-const FeedbackResults = ({good, neutral, bad}) => {
+const Statistics = ({good, neutral, bad}) => {
   const all = good + neutral + bad;
   const average = good - bad;
   let positive = 0;
@@ -47,7 +47,7 @@ const App = () => {
         incrementNeutral={() => setNeutral(neutral + 1)}
         incrementBad={() => setBad(bad + 1)}
       />
-      <FeedbackResults good={good} neutral={neutral} bad={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
 };
