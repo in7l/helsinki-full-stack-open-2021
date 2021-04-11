@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 
+const Anecdote = ({text, votes}) => (
+  <div>
+    <p>{text}</p>
+    <p>has {votes} votes</p>
+  </div>
+);
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often',
@@ -45,12 +52,34 @@ const App = () => {
     setPoints(pointsCopy);
   };
 
+  const getMaxValueIndex = (arr) => {
+    let max = null;
+    let maxIndex;
+
+    for (let i = 0; i < arr.length; i++) {
+      if (max === null || arr[i] > max) {
+        max = arr[i];
+        maxIndex = i;
+      }
+    }
+
+    return maxIndex;
+  }
+
+  const mostVotedIndex = getMaxValueIndex(points);
+
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <p>has {points[selected]} votes</p>
-      <button onClick={() => incrementAnecdoteScore(selected)}>vote</button>
-      <button onClick={switchAnecdote}>next anecdote</button>
+      <div>
+        <h1>Anecdote of the day</h1>
+        <Anecdote text={anecdotes[selected]} votes={points[selected]} />
+        <button onClick={() => incrementAnecdoteScore(selected)}>vote</button>
+        <button onClick={switchAnecdote}>next anecdote</button>
+      </div>
+      <div>
+        <h1>Anecdote with most votes</h1>
+        <Anecdote text={anecdotes[mostVotedIndex]} votes={points[mostVotedIndex]} />
+      </div>
     </div>
   );
 };
