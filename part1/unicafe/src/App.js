@@ -21,15 +21,24 @@ const Statistics = ({good, neutral, bad}) => {
     positive = (good / all) * 100;
   }
 
+  let statisticsElements = (<p>No feedback given</p>);
+  if (all > 0) {
+    statisticsElements = (
+      <>
+        <p>good {good}</p>
+        <p>neutral {neutral}</p>
+        <p>bad {bad}</p>
+        <p>all {all}</p>
+        <p>average {average}</p>
+        <p>positive {positive} %</p>
+      </>
+    );
+  }
+
   return (
     <div>
       <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {all}</p>
-      <p>average {average}</p>
-      <p>positive {positive} %</p>
+      {statisticsElements}
     </div>
   );
 };
