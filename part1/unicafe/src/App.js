@@ -13,7 +13,12 @@ const FeedbackInput = ({ incrementGood, incrementNeutral, incrementBad }) => (
   </div>
 );
 
-const Statistic = ({ text, value}) => (<p>{text} {value}</p>)
+const Statistic = ({ text, value}) => (
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
+);
 
 const Statistics = ({good, neutral, bad}) => {
   const all = good + neutral + bad;
@@ -26,14 +31,16 @@ const Statistics = ({good, neutral, bad}) => {
   let statisticsElements = (<p>No feedback given</p>);
   if (all > 0) {
     statisticsElements = (
-      <>
-        <Statistic text="good" value={good} />
-        <Statistic text="neutral" value={neutral} />
-        <Statistic text="bad" value={bad} />
-        <Statistic text="all" value={all} />
-        <Statistic text="average" value={average} />
-        <Statistic text="positive" value={positive + ' %'} />
-      </>
+      <table>
+        <tbody>
+          <Statistic text="good" value={good} />
+          <Statistic text="neutral" value={neutral} />
+          <Statistic text="bad" value={bad} />
+          <Statistic text="all" value={all} />
+          <Statistic text="average" value={average} />
+          <Statistic text="positive" value={positive + ' %'} />
+        </tbody>
+      </table>
     );
   }
 
