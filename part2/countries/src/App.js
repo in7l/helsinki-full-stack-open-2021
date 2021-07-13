@@ -19,6 +19,10 @@ const App = () => {
     setSearch(event.target.value);
   };
 
+  const handleCountrySelect = (event) => {
+    setSearch(event.target.name);
+  };
+
   const countriesToDisplay = countries.filter(
     (country) => country.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -26,7 +30,7 @@ const App = () => {
   return (
     <div>
       <Filter search={search} handleSearch={handleSearch} />
-      <Countries countries={countriesToDisplay} />
+      <Countries countries={countriesToDisplay} handleCountrySelect={handleCountrySelect} />
     </div>
   );
 };

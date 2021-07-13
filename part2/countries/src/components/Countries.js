@@ -1,6 +1,6 @@
 import Country from './Country';
 
-const Countries = ({ countries }) => {
+const Countries = ({ countries, handleCountrySelect }) => {
 
   let content = 'No countries match the criteria';
 
@@ -10,9 +10,14 @@ const Countries = ({ countries }) => {
   else if (countries.length > 1) {
     content = (
       <ul>
-        {countries.map(
-          country => <li key={country.name}>{country.name}</li>
-        )}
+        {countries.map(country => {
+          return (
+            <li key={country.name}>
+              <span>{country.name}</span>
+              <button name={country.name} onClick={handleCountrySelect}>show</button>
+            </li>
+          );
+        })}
       </ul>
     )
   }
