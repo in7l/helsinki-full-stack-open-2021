@@ -56,6 +56,14 @@ const App = () => {
     person.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const deletePersonById = (id) => {
+    personService
+      .remove(id)
+      .then(() => {
+        setPersons(persons.filter(p => p.id !== id));
+      });
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -68,7 +76,7 @@ const App = () => {
         addPerson={addPerson}
       />
       <h2>Numbers</h2>
-      <Persons persons={personsToDisplay} />
+      <Persons persons={personsToDisplay} deletePersonById={deletePersonById} />
     </div>
   );
 };
