@@ -25,27 +25,19 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
-  const addPerson = (event) => {
-    event.preventDefault();
+  const addPerson = () => {
+    const newPerson = {
+      name: newName,
+      number: newNumber
+    };
 
-    const personAlreadyExists = persons.some(person => person.name === newName);
-    if (personAlreadyExists) {
-      alert(`${newName} is already added to phonebook`);
-    }
-    else {
-      const newPerson = {
-        name: newName,
-        number: newNumber
-      };
-
-      personService
-        .create(newPerson)
-        .then(returnedPerson => {
-          setPersons(persons.concat(returnedPerson));
-          setNewName('');
-          setNewNumber('');
-        });
-    }
+    personService
+      .create(newPerson)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson));
+        setNewName('');
+        setNewNumber('');
+      });
   };
 
   const handleSearch = (event) => {
@@ -69,6 +61,44 @@ const App = () => {
       .then(() => {
         setPersons(persons.filter(p => p.id !== id));
       });
+  };
+
+  const updatePhoneNumber = (personId) => {
+    const person = persons.find(p => p.id === personId);
+    const updateConfirmed = window.confirm(
+      `${person.name} is already added to the phonebook, `
+      + 'replace the old number with a new one?'
+    );
+
+    if (updateConfirmed === false) {
+      return;
+    }
+
+    const updatedPerson = {
+      ...person,
+      number: newNumber
+    };
+
+    personService
+      .update(personId, updatedPerson)
+      .then((returnedPerson) => {
+        setPersons(persons.map(
+          p => p.id !== returnedPerson.id ? p : returnedPerson
+        ));
+        setNewName('');
+        setNewNumber('');
+      });
+  };
+
+  const addOrUpdatePerson = (event) => {
+    event.preventDefault();
+
+    const person = persons.find(person => person.name === newName);
+    if (person) {
+      updatePhoneNumber(person.id);
+    } else {
+      addPerson();
+    }
   }
 
   return (
@@ -80,7 +110,7 @@ const App = () => {
         handleNameChange={handleNameChange}
         newNumber={newNumber}
         handleNumberChange={handleNumberChange}
-        addPerson={addPerson}
+        addOrUpdatePerson={addOrUpdatePerson}
       />
       <h2>Numbers</h2>
       <Persons persons={personsToDisplay} deletePersonById={deletePersonById} />
