@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import Notification from './components/Notification';
 import personService from './services/persons';
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ search, setSearch ] = useState('');
+  const [ notificationMessage, setNotificationMessage ] = useState(null);
 
   useEffect(() => {
     personService.getAll()
@@ -25,6 +27,13 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
+  const setFadingNotification = (message, timeout = 5000) => {
+    setNotificationMessage(message);
+    setTimeout(() => {
+      setNotificationMessage(null);
+    }, timeout);
+  }
+
   const addPerson = () => {
     const newPerson = {
       name: newName,
@@ -37,6 +46,7 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName('');
         setNewNumber('');
+        setFadingNotification(`Added ${returnedPerson.name}`);
       });
   };
 
@@ -87,6 +97,7 @@ const App = () => {
         ));
         setNewName('');
         setNewNumber('');
+        setFadingNotification(`Changed the number of ${returnedPerson.name}`);
       });
   };
 
@@ -104,6 +115,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
       <Filter search={search} handleSearch={handleSearch} />
       <PersonForm
         newName={newName}
