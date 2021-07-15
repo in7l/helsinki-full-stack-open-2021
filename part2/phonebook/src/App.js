@@ -10,7 +10,10 @@ const App = () => {
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ search, setSearch ] = useState('');
-  const [ notificationMessage, setNotificationMessage ] = useState(null);
+  const [ notification, setNotification ] = useState({
+    message: null,
+    isError: false
+  });
 
   useEffect(() => {
     personService.getAll()
@@ -27,10 +30,17 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
-  const setFadingNotification = (message, timeout = 5000) => {
-    setNotificationMessage(message);
+  const setFadingNotification = (message, isError = false, timeout = 5000) => {
+    setNotification({
+      message,
+      isError
+    });
+
     setTimeout(() => {
-      setNotificationMessage(null);
+      setNotification({
+        message: null,
+        isError: false
+      });
     }, timeout);
   }
 
@@ -98,7 +108,10 @@ const App = () => {
         setNewName('');
         setNewNumber('');
         setFadingNotification(`Changed the number of ${returnedPerson.name}`);
-      });
+      })
+      .catch((error) => {
+        setFadingNotification(`The person '${updatedPerson.name}' was already deleted from server`, true);
+      })
   };
 
   const addOrUpdatePerson = (event) => {
@@ -115,7 +128,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage} />
+      <Notification message={notification.message} isError={notification.isError} />
       <Filter search={search} handleSearch={handleSearch} />
       <PersonForm
         newName={newName}
