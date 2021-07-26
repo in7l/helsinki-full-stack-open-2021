@@ -10,4 +10,7 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:3001/api/notes/60fefe96b49d0e2048bb1fd7
+GET http://localhost:3001/api/notes/60feffe9b9a72327ddcbee7a
+
+###
+DELETE http://localhost:3001/api/notes/60feffe9b9a72327ddcbee7a
