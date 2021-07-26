@@ -8,3 +8,6 @@ content-type: application/json
     "content": "Test content",
     "important": true
 }
+
+###
+GET http://localhost:3001/api/notes/60fefe96b49d0e2048bb1fd7
